@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=yes, viewport-fit=cover">
+  <title>مارينا حبيبة عمري كله 💖</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&family=El+Messiri:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-love: #ff1493;
+      --velvet-dark: #1a0007;
+      --rose-gold: #ffd700;
+      --glass-glow: rgba(255, 20, 147, 0.15);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Cairo', 'El Messiri', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      outline: none;
+    }
+
+    body {
+      background: #0d0003;
+      overflow-x: hidden;
+      color: white;
+      position: relative;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding: 40px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #page1 {
+      display: flex;
+      background: radial-gradient(circle at center, #4a0011 0%, #0d0003 70%);
+    }
+
+    #page2 {
+      background: linear-gradient(180deg, #1a0006 0%, #3d0012 50%, #0d0003 100%);
+    }
+
+    #game {
+      background: radial-gradient(circle at top, #5e0019, #0d0003);
+    }
+
+    #birthdayFunPage {
+      background: linear-gradient(135deg, #2b000a, #4a0016, #120004);
+    }
+
+    #counterPage {
+      background: radial-gradient(circle at center, #3a0010 0%, #050002 80%);
+    }
+
+    #lovePage {
+      background: #000000;
+    }
+
+    #finalPageNew {
+      background: radial-gradient(circle at center, #3d0012 0%, #0d0003 100%);
+    }
+
+    .card {
+      position: relative;
+      z-index: 2;
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 35px 25px;
+      border-radius: 40px;
+      width: 100%;
+      max-width: 650px;
+      text-align: center;
+      border: 1px solid rgba(255, 20, 147, 0.25);
+      box-shadow: 0 15px 50px rgba(255, 0, 85, 0.15), inset 0 0 20px rgba(255, 255, 255, 0.05);
+    }
+
+    .typing {
+      font-size: clamp(20px, 5vw, 32px);
+      font-weight: 700;
+      line-height: 1.8;
+      color: #fff0f5;
+      text-shadow: 0 0 15px rgba(255, 20, 147, 0.6);
+      min-height: 90px;
+      margin-bottom: 20px;
+    }
+
+    .sub {
+      font-size: 18px;
+      line-height: 1.8;
+      color: #ffb3c6;
+      opacity: 0.95;
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 14px 32px;
+      border: none;
+      border-radius: 50px;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      background: linear-gradient(135deg, #ff0055, #ff5e00);
+      color: white;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px rgba(255, 0, 85, 0.4);
+      position: relative;
+      overflow: hidden;
+      z-index: 5;
+    }
+
+    button:hover {
+      transform: scale(1.04);
+      box-shadow: 0 12px 35px rgba(255, 0, 85, 0.6);
+    }
+
+    /* نظام السحب والإفلات للمربعات */
+    .puzzle-container {
+      margin-top: 25px;
+      width: 100%;
+    }
+
+    .puzzle-pool {
+      display: flex;
+      justify-content: center;
+      flex-wrap: nowrap !important;
+      gap: clamp(6px, 2vw, 12px);
+      margin: 25px auto;
+      position: relative;
+      direction: ltr !important;
+      width: 100%;
+      max-width: 450px;
+    }
+
+    .puzzle-digit {
+      width: clamp(42px, 11vw, 55px);
+      height: clamp(42px, 11vw, 55px);
+      background: rgba(255, 255, 255, 0.08);
+      border: 2px solid rgba(255, 20, 147, 0.4);
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(18px, 5vw, 26px);
+      font-weight: 900;
+      color: #fff;
+      cursor: grab;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+      touch-action: none;
+    }
+
+    .puzzle-digit:active {
+      cursor: grabbing;
+      background: rgba(255, 20, 147, 0.25);
+      border-color: #ffd700;
+      box-shadow: 0 0 20px #ff0055;
+    }
+
+    /* كروت الصور وتأثير الـ Scroll */
+    .memories {
+      display: flex;
+      flex-direction: column;
+      gap: 45px;
+      width: 100%;
+      max-width: 600px;
+      margin-top: 40px;
+    }
+
+    .memory {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 2s ease, transform 2s ease;
+      background: #fff;
+      padding: 18px 18px 30px 18px;
+      border-radius: 4px;
+      color: #2b000a;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      transform: rotate(var(--rotate, -2deg));
+    }
+
+    .memory:nth-child(even) { --rotate: 2deg; }
+
+    .memory.fade-in {
+      opacity: 1;
+      transform: translateY(0) rotate(var(--rotate, -2deg));
+    }
+
+    .memory img {
+      width: 100%;
+      display: block;
+      border-radius: 2px;
+    }
+
+    .caption {
+      padding-top: 20px;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.8;
+      text-align: center;
+      font-family: 'El Messiri', sans-serif;
+    }
+
+    .score {
+      font-size: 28px;
+      font-weight: 700;
+      color: #ff4da6;
+      text-shadow: 0 0 15px rgba(255,77,166,0.5);
+      margin-bottom: 10px;
+    }
+
+    .messageBox {
+      font-size: 22px;
+      font-weight: 700;
+      color: #ffe6f2;
+      min-height: 65px;
+      text-align: center;
+      line-height: 1.8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+
+    /* تأثير كلمة بحبك اللامعة والهادئة */
+    .shiny-love-text {
+      font-family: 'El Messiri', sans-serif;
+      font-size: clamp(32px, 7vw, 46px);
+      font-weight: 700;
+      color: #ffffff;
+      text-shadow: 0 0 15px #ff1493, 0 0 30px #ff1493, 0 0 50px #ffd700;
+      opacity: 0;
+      display: inline-block;
+      animation: calmFadeInGlow 1.5s ease-in-out forwards;
+    }
+
+    @keyframes calmFadeInGlow {
+      0% { opacity: 0; transform: scale(0.92); filter: brightness(1); }
+      50% { filter: brightness(1.2); text-shadow: 0 0 20px #ff1493, 0 0 40px #ff0055, 0 0 60px #ffd700; }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .hearts-area {
+      position: relative;
+      width: 100%;
+      height: 65vh;
+      overflow: hidden;
+      border-radius: 30px;
+      background: rgba(0,0,0,0.2);
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 45px;
+      cursor: pointer;
+      animation: fall linear forwards;
+    }
+
+    @keyframes fall {
+      from { transform: translateY(-100px) scale(0.8); }
+      to { transform: translateY(75vh) scale(1.1); }
+    }
+
+    .floating-text-pop {
+      position: absolute;
+      color: #ffd700;
+      font-weight: 700;
+      font-size: 18px;
+      pointer-events: none;
+      animation: popTextUp 0.8s forwards;
+      text-shadow: 0 0 10px #ff0055;
+      white-space: nowrap;
+    }
+
+    @keyframes popTextUp {
+      0% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-60px) scale(1.3); }
+    }
+
+    .gift-box {
+      font-size: 7rem;
+      cursor: pointer;
+      transition: transform 0.3s;
+      animation: pulseRose 1.5s infinite alternate;
+      filter: drop-shadow(0 0 25px #ff0055);
+    }
+
+    @keyframes pulseRose {
+      from { transform: scale(1); }
+      to { transform: scale(1.12); filter: drop-shadow(0 0 40px #ff0055); }
+    }
+
+    /* ستايل العداد المتناسق في السنتر */
+    .counter-card {
+      background: rgba(15, 0, 5, 0.6);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      border-radius: 50px;
+      padding: 40px 25px;
+      box-shadow: 0 0 60px rgba(255, 0, 85, 0.25);
+      max-width: 650px;
+      width: 100%;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .counter-digits {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 25px 0;
+      width: 100%;
+    }
+
+    .digit-block {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 15px 10px;
+      min-width: 85px;
+      box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .digit-number {
+      font-size: 2.5em;
+      font-weight: 900;
+      background: linear-gradient(180deg, #ffffff, #ffd700);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-align: center;
+      line-height: 1.2;
+      display: block;
+    }
+
+    .digit-label {
+      color: #ffb3c6;
+      font-size: 14px;
+      text-align: center;
+      margin-top: 5px;
+    }
+
+    /* صفحة الفضاء السحرية والـ Canvas الثابت للدمج السينمائي */
+    #lovePage {
+      display: none;
+      background: #000000;
+      position: relative;
+      width: 100%;
+      height: 100vh;
+    }
+
+    #spaceCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* الصفحة الأخيرة ورسالة الاعتذار */
+    #finalPageNew {
+      text-align: center;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .bigText {
+      font-size: clamp(24px, 6vw, 45px);
+      font-weight: 700;
+      font-family: 'El Messiri', sans-serif;
+      background: linear-gradient(90deg, #ffb3d9, #ffd700, #ff3399);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 200%;
+      animation: shiftGrad 4s linear infinite;
+      line-height: 1.6;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    @keyframes shiftGrad {
+      0% { background-position: 0%; }
+      100% { background-position: 200%; }
+    }
+
+    .small {
+      margin-top: 25px;
+      font-size: 18px;
+      line-height: 2;
+      max-width: 700px;
+      color: #fff0f5;
+      text-align: center;
+    }
+
+    .video-container {
+      width: 100%;
+      max-width: 500px;
+      margin: 35px auto;
+      opacity: 0;
+      transform: scale(0.95);
+      transition: all 1.2s ease;
+      display: block;
+    }
+
+    .video-container.visible {
+      opacity: 1 !important;
+      transform: scale(1) !important;
+    }
+
+    .love-video {
+      width: 100%;
+      height: auto;
+      border: 3px solid #ffd700;
+      border-radius: 25px;
+      box-shadow: 0 0 40px rgba(255, 0, 85, 0.4);
+      background-color: #000;
+      display: block;
+    }
+
+    .star { position: absolute; background: white; border-radius: 50%; opacity: 0.3; animation: blink 3s infinite linear; }
+    @keyframes blink { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; } }
+
+    .scroll-particle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      font-size: 20px;
+      animation: fadeOutParticle 0.8s ease-out forwards;
+    }
+    @keyframes fadeOutParticle {
+      0% { opacity: 1; transform: translate(0,0) scale(1); }
+      100% { opacity: 0; transform: translate(20px, -30px) scale(0.4); }
+    }
+
+    @media(max-width: 700px) {
+      .typing { min-height: 110px; }
+      .digit-number { font-size: 2em; }
+      .counter-card { border-radius: 35px; padding: 25px 15px; }
+    }
+  </style>
+</head>
+<body>
+
+  <audio id="music" src="song.mp3" loop></audio>
+
+  <!-- الصفحة الأولى -->
+  <section class="page" id="page1">
+    <div class="star-field" id="stars1"></div>
+    <div class="card">
+      <div class="typing" id="typing"></div>
+      <p class="sub">المكان ده متصمم مخصوص عشان يفرحك ياروحي..💖</p>
+      <div class="puzzle-container">
+        <p style="font-size:16px; margin-bottom:12px; color:#ffb3c6;">اسحبي الأرقام وحركيها عشان ترتبي الباسوورد</p>
+        <div class="puzzle-pool" id="puzzlePool"></div>
+        <button id="puzzleSubmit">افتحي قلبي من هنا 🗝️</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- الصفحة الثانية -->
+  <section class="page" id="page2">
+    <div class="card" style="margin-bottom: 20px;">
+      <h1 style="font-family:'El Messiri'; font-size:36px; color:#ffd700;">بحبك</h1>
+      <p style="font-size:18px; color:#ffe6ec;">كل ثانية معاكي هي العمر كله بالنسبة لي.</p>
+    </div>
+    <div class="memories">
+      <div class="memory"><img src="photo1.jpg" alt="♡"><div class="caption">ملامحك كلها بتقولي إنك الأمان والبيت الوحيد لروحي ❤️</div></div>
+      <div class="memory"><img src="photo2.jpg" alt="♡"><div class="caption">صوتك لوحده كفيل ينسيني أي تعب ويزيح الهم عني 😍</div></div>
+      <div class="memory"><img src="photo3.jpg" alt="♡"><div class="caption">لما ببص في عينيكي، بحس إن الدنيا كلها وقفت ومفيش غيرنا ✨</div></div>
+      <div class="memory"><img src="photo4.jpg" alt="♡"><div class="caption">وجودك في حياتي هو النعمة اللي بشكر ربنا عليها كل يوم ❤️</div></div>
+      <div class="memory"><img src="photo5.jpg" alt="♡"><div class="caption">لو عشت عمري ده ألف مرة، هختارك إنتي برضه وأحبك من جديد 💌</div></div>
+    </div>
+    <button onclick="goGame()">دوسي هنا وشوفي اللي بعده 🫶❤️</button>
+  </section>
+
+  <!-- صفحة اللعبة -->
+  <section class="page" id="game">
+    <div class="score">حبي ليكي في قلبي: <span id="score">0</span> / 10</div>
+    <div class="messageBox" id="gameMsg">دوسي على القلوب اللي نازلة عشان تجمعي كل الحب اللي شايلهولك 🥰💖</div>
+    <div class="hearts-area" id="heartsArea"></div>
+  </section>
+
+  <!-- صفحة الوردة -->
+  <section class="page" id="birthdayFunPage">
+    <div class="star-field" id="stars2"></div>
+    <h1 style="font-family:'El Messiri'; font-size:38px; color:#fff; text-shadow:0 0 20px #ff0055; margin-bottom:20px;">أجمل وردة لقلبك 🌹</h1>
+    <p style="font-size:18px; margin-bottom:35px; color:#ffb3c6; text-align:center;">المسي الوردة دي عشان تفتح ليكي يا قلبي ✨</p>
+    
+    <div class="gift-box" id="giftBox" onclick="openGift()">🌹</div>
+    <div id="giftMessage" style="display:none; font-size:1.5em; color:#fff; background:rgba(0,0,0,0.6); padding:20px 30px; border-radius:30px; margin-top:25px; border:1px solid #ffd700; text-align:center; max-width:600px;">
+      مفيش هنا وردة غيرك يا RENA، بس وعَد أول ما أشوفك هجيبلك تاني أجمل وردة في العالم بعدك طبعاً😍❤️
+    </div>
+    <div id="countdown" style="font-size:18px; margin-top:20px; color:#ffd700; font-weight:700;"></div>
+    
+    <button id="toFinalBtn" style="display:none;" onclick="goToCounterFromFun()">يلا للي بعده يا قلبي 🎀</button>
+  </section>
+
+  <!-- صفحة العداد -->
+  <section class="page" id="counterPage">
+    <div class="star-field" id="stars3"></div>
+    <div class="counter-card">
+      <h2 style="font-family:'El Messiri'; font-size:28px; color:#ffd700; margin-bottom:20px;">بقالنا قد إيه مع بعض?</h2>
+      <div class="counter-digits" id="counterDisplay">
+        <div class="digit-block"><span class="digit-number" id="years">00</span><div class="digit-label">سنين</div></div>
+        <div class="digit-block"><span class="digit-number" id="months">00</span><div class="digit-label">شهور</div></div>
+        <div class="digit-block"><span class="digit-number" id="days">00</span><div class="digit-label">أيام</div></div>
+        <div class="digit-block"><span class="digit-number" id="hours">00</span><div class="digit-label">ساعات</div></div>
+        <div class="digit-block"><span class="digit-number" id="minutes">00</span><div class="digit-label">دقائق</div></div>
+        <div class="digit-block"><span class="digit-number" id="seconds">00</span><div class="digit-label">ثواني</div></div>
+      </div>
+      <p style="font-size:18px; font-weight:700; color:#fff; margin-top:20px;">وبدعي ربنا نفضل مع بعض العمر كله ومفيش حاجة تفرقنا أبداً 💖</p>
+      <button onclick="goToFinalFromCounter()">اللي بعدووو</button>
+    </div>
+  </section>
+
+  <!-- صفحة الفضاء السحرية -->
+  <section class="page" id="lovePage">
+    <canvas id="spaceCanvas"></canvas>
+  </section>
+
+  <!-- الصفحة الأخيرة ورسالة الاعتذار والفيديو -->
+  <section class="page" id="finalPageNew">
+    <div class="bigText">شكرا يا مارينا على كل حاجه حلوة منك وجودك لوحده دا اجمل حاجة حصلتلي🥰❤️</div>
+    
+    <div class="small">
+      مارينا ❤️<br><br>
+      ممكن الكلمات تعجز توصف اللي جوايا، لكن كان لازم أقولك شكرًا من كل قلبي. وجودك معايا في أصعب وقت مريت بيه كان أكبر نعمة. وإنتِ فضلتي جنبي وأنا على آخري، واحتويتيني وسندتيني من غير ما تزهقي أو تتخلي عني.<br><br>
+      يمكن مكنتش دايمًا أعرف أعبر، لكن كل موقف عملتيه معايا محفور في قلبي. وجودك فرق معايا أكتر مما تتخيلي، وخلاني أعدي أيام كنت فاكر إني مش هقدر أكملها.<br><br>
+      أنا ممتن ليكي، ومقدر كل لحظة وقفتي فيها جنبي، وكل كلمة طمنتيني بيها، وكل مرة حسستيني إني مش لوحدي. ربنا يديمك في حياتي، ويحفظ قلبك الجميل اللي مليان طيبة وحنية.<br><br>
+      بحبك حب كبير، وكل يوم بيعدي بتأكد إن وجودك في حياتي من أجمل الحاجات اللي حصلتلي. يا رب أفضل دايمًا سبب في ابتسامتك، وأكون ليكي زي ما كنتِ ليا وأكثر.<br><br>
+      شكرًا يا مارينا... على حبك، وعلى صبرك، وعلى إنك كنتِ النور وقت ما الدنيا كانت ضلمة بالنسبة ليا. 🤍
+    </div>
+
+    <div class="video-container" id="videoContainer">
+      <video id="loveVideo" src="video.mp4" playsinline controls preload="auto" class="love-video"></video>
+    </div>
+
+    <div class="small">
+      .. ❤️<br><br>
+      عارفة أصعب حاجة ممكن تحصل لحد؟ إنه يحس إن الدنيا كلها ضده، ومفيش حد يطمنه أو يهون عليه. وأنا عشت الإحساس ده... بس إنتِ ماسمحتيش إني أعيشه لوحدي.<br><br>
+      كنتي السند وقت ما كنت مكسور، والهدوء وقت ما كان جوايا ألف حرب، والونس وقت ما كنت حاسس إن مفيش حد فاهمني. يمكن ناس كتير كانت موجودة حواليا، لكن إنتِ الوحيدة اللي كنت حاسس إن وجودها بيفرق بجد.<br><br>
+      أنا عمري ما هنسى إنك فضلتي معايا وأنا مش أحسن نسخة من نفسي، ولا هنسى إنك استحملتي تقل أيامي قبل ما تشوفي ضحكتي. وده عندي بالدنيا كلها.<br><br>
+      كل مرة كنت بقول "خلاص"، كنت بلاقيكي بتقوليلي من غير كلام: "أنا معاك". والجملة دي كانت كفاية ترجعلي القوة من أول وجديد.<br><br>
+      مارينا... أنا مش بحبك عشان إنتِ جنبي في الأيام الحلوة، أنا بحبك لأنك ما سيبتنيش في الأيام الوحشة. لأنك اخترتي تكملي معايا وأنا تايه، واخترتي تطمني وأنا كنت مليان خوف.<br><br>
+      وجودك في حياتي مش حاجة عادية، ده رزق من ربنا. ولو في يوم قدرت أبقى سبب في فرحتك، أو أعوضك عن أي لحظة تعبتي فيها عشاني، هعتبر إن ده أقل حاجة أقدر أقدمها ليكي.<br><br>
+      بحبك... حب أكبر من الكلام، وأعمق من أي رسالة ممكن تتكتب. وربنا يديمك نعمة في حياتي، ويخليني دايمًا الشخص اللي يستحق قلبك الجميل.<br><br>
+      بحبك يا ماينا... وهفضل طول عمري ممتن إنك اخترتي تفضلي معايا، وقت ما كان الكل ساب، وإنتِ لأ. 😍✨️❤️
+    </div>
+    
+    <button style="background:white; color:#ff0055;" onclick="location.reload()"> تشوفي رحلتنا تاني؟</button>
+  </section>
+
+  <script>
+    const pages = document.querySelectorAll('.page');
+    let countdownFinished = false;
+    let gameEnded = false;
+    let heartInterval, counterInterval;
+    const audio = document.getElementById('music');
+
+    // ===== نظام سحب وإفلات ثنائي الاتجاه ومضمون 100% =====
+    const correctPassword = "1052008"; 
+    let currentPasswordArray = correctPassword.split('').sort(() => Math.random() - 0.5);
+
+    function initPuzzle() {
+      const pool = document.getElementById('puzzlePool');
+      pool.innerHTML = '';
+      currentPasswordArray.forEach((digit, idx) => {
+        const div = document.createElement('div');
+        div.className = 'puzzle-digit';
+        div.textContent = digit;
+        div.dataset.index = idx;
+        
+        div.onpointerdown = (e) => {
+          e.preventDefault();
+          div.setPointerCapture(e.pointerId);
+          const startX = e.clientX;
+          const startY = e.clientY;
+          
+          div.style.zIndex = '1000';
+          div.style.transition = 'none';
+          
+          const digitsElements = Array.from(document.querySelectorAll('.puzzle-digit'));
+          const rects = digitsElements.map(el => ({
+            el: el,
+            rect: el.getBoundingClientRect(),
+            index: parseInt(el.dataset.index)
+          }));
+          
+          function onPointerMove(moveEvent) {
+            const dx = moveEvent.clientX - startX;
+            const dy = moveEvent.clientY - startY;
+            div.style.transform = `translate(${dx}px, ${dy}px) scale(1.15)`;
+          }
+          
+          function onPointerUp(upEvent) {
+            div.releasePointerCapture(upEvent.pointerId);
+            document.removeEventListener('pointermove', onPointerMove);
+            document.removeEventListener('pointerup', onPointerUp);
+            
+            div.style.zIndex = '';
+            div.style.transform = '';
+            div.style.transition = 'all 0.3s ease';
+            
+            const mx = upEvent.clientX;
+            const my = upEvent.clientY;
+            
+            let targetIdx = null;
+            for (let r of rects) {
+              if (mx >= r.rect.left && mx <= r.rect.right &&
+                  my >= r.rect.top && my <= r.rect.bottom) {
+                targetIdx = r.index;
+                break;
+              }
+            }
+            
+            const sourceIdx = parseInt(div.dataset.index);
+            if (targetIdx !== null && targetIdx !== sourceIdx) {
+              let temp = currentPasswordArray[sourceIdx];
+              currentPasswordArray[sourceIdx] = currentPasswordArray[targetIdx];
+              currentPasswordArray[targetIdx] = temp;
+            }
+            initPuzzle();
+          }
+          
+          document.addEventListener('pointermove', onPointerMove);
+          document.addEventListener('pointerup', onPointerUp);
+        };
+        
+        pool.appendChild(div);
+      });
+    }
+    initPuzzle();
+
+    document.getElementById('puzzleSubmit').addEventListener('click', () => {
+      if (currentPasswordArray.join('') === correctPassword) {
+        if (audio) audio.play().catch(() => {});
+        showPage('page2');
+        setupMemoryScrollObserver(); 
+      } else {
+        alert('التاريخ مش مظبوط كدة، ركزي شوية يا روحي المرة دي 💔');
+      }
+    });
+
+    // ===== نظام السكرول الذكي للصور =====
+    function setupMemoryScrollObserver() {
+      const memories = document.querySelectorAll('.memory');
+      const observerOptions = { root: null, threshold: [0.3, 0.5] };
+
+      const memoryObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.intersectionRatio >= 0.5) {
+            entry.target.classList.add('fade-in'); 
+          } else if (entry.intersectionRatio < 0.3) {
+            entry.target.classList.remove('fade-in'); 
+          }
+        });
+      }, observerOptions);
+
+      memories.forEach(m => memoryObserver.observe(m));
+    }
+
+    // تعديل اسم "منك" أو "ملك" ليطابق متطلبات التخصيص بشكل سليم
+    function showPage(id) {
+      pages.forEach(p => p.style.display = 'none');
+      const target = document.getElementById(id);
+      target.style.display = 'flex';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    const textToType = "عشان تعرفي ااني بحبك ووجودك جنبي هو كل اللي بتمناه، وعشان بُعدك بيطفي النور في عيني.. عملتلك المكان ده مخصوص ليكي، عشان تعرفي غلاوتك في قلبي عاملة ازاي 🌺❤️";
+    let typeIdx = 0;
+    function typeEffect() {
+      if (typeIdx < textToType.length) {
+        document.getElementById('typing').innerHTML += textToType.charAt(typeIdx);
+        typeIdx++; setTimeout(typeEffect, 50);
+      }
+    }
+    window.addEventListener('load', () => {
+      typeEffect();
+      makeStars('stars1', 80); makeStars('stars2', 60); makeStars('stars3', 70);
+    });
+
+    function makeStars(id, count) {
+      const container = document.getElementById(id); if (!container) return;
+      for (let i = 0; i < count; i++) {
+        const star = document.createElement('div'); star.className = 'star';
+        star.style.width = star.style.height = (Math.random() * 3 + 1) + 'px';
+        star.style.left = Math.random() * 100 + '%'; star.style.top = Math.random() * 100 + '%';
+        star.style.animationDuration = (2 + Math.random() * 4) + 's';
+        container.appendChild(star);
+      }
+    }
+
+    // ===== لعبة تجميع الحب =====
+    const loveQuotes = ["بحبك 💖", "بعشقك 🥹", "يا روح قلبي ✨", "يا دنيتي كلها ❤️", "يا بنتي الصغيره 🌸", "حلالي وعمري 💌", "ضحكتك حياتي 💖", "i love you 🫶"];
+    let currentScore = 0;
+    function goGame() { showPage('game'); startHeartsFalling(); }
+
+    function startHeartsFalling() {
+      const area = document.getElementById('heartsArea');
+      heartInterval = setInterval(() => {
+        if (gameEnded) return;
+        const h = document.createElement('div'); h.className = 'heart';
+        h.innerHTML = ['💖', '❤️', '💝', '💘', '💗'][Math.floor(Math.random() * 5)];
+        h.style.left = (Math.random() * 85) + '%';
+        h.style.animationDuration = (2.5 + Math.random() * 2.5) + 's';
+        h.onclick = (e) => {
+          if (gameEnded) return;
+          const pop = document.createElement('div'); pop.className = 'floating-text-pop';
+          pop.innerText = loveQuotes[Math.floor(Math.random() * loveQuotes.length)];
+          pop.style.left = e.clientX + 'px'; pop.style.top = e.clientY + 'px';
+          document.body.appendChild(pop); setTimeout(() => pop.remove(), 800);
+
+          h.remove(); currentScore++;
+          document.getElementById('score').innerText = currentScore;
+          
+          if (currentScore >= 10) {
+            gameEnded = true; clearInterval(heartInterval); area.innerHTML = '';
+            document.getElementById('gameMsg').innerHTML = '<span class="shiny-love-text">بحبك 💖</span>';
+            setTimeout(() => { showPage('birthdayFunPage'); startGiftCountdown(); }, 2500);
+          }
+        };
+        area.appendChild(h);
+        setTimeout(() => h.remove(), 5000);
+      }, 650);
+    }
+
+    // ===== الوردة السحرية =====
+    function startGiftCountdown() {
+      let left = 5; countdownFinished = false;
+      const countEl = document.getElementById('countdown');
+      countEl.innerHTML = `الوردة بتجهز عشان تفتح ليكي خلال ${left} ثوانٍ...`;
+      const timer = setInterval(() => {
+        left--;
+        if (left >= 0) countEl.innerHTML = `الوردة بتجهز عشان تفتح ليكي خلال ${left} ثوانٍ...`;
+        if (left <= 0) { clearInterval(timer); countEl.innerHTML = "🌹 الوردة جاهزة دلوقتي ليكي! المسيها!"; countdownFinished = true; }
+      }, 1000);
+    }
+
+    function openGift() {
+      if (countdownFinished) {
+        document.getElementById('giftMessage').style.display = 'block';
+        document.getElementById('giftBox').style.pointerEvents = 'none';
+        document.getElementById('toFinalBtn').style.display = 'inline-block';
+        document.getElementById('countdown').innerHTML = "✨ الوردة فتحت وبتقولك ايمن بيحبك!";
+      } else {
+        alert("دعي الوردة تكتمل أنوارها أولاً يا RENA...");
+      }
+    }
+
+    function goToCounterFromFun() { showPage('counterPage'); startCounter(); }
+
+    // ===== العداد المظبوط لـ 6 يونيو 2024 =====
+    function startCounter() {
+      if (counterInterval) clearInterval(counterInterval);
+      const start = new Date('2026-01-01T00:00:00'); 
+      function calc() {
+        const now = new Date(); let totalMs = now - start;
+        let years = now.getFullYear() - start.getFullYear();
+        let months = now.getMonth() - start.getMonth();
+        let days = now.getDate() - start.getDate();
+        if (days < 0) { months--; days += new Date(now.getFullYear(), now.getMonth(), 0).getDate(); }
+        if (months < 0) { years--; months += 12; }
+        const hours = Math.floor(totalMs / 3600000) % 24;
+        const minutes = Math.floor(totalMs / 60000) % 60;
+        const seconds = Math.floor(totalMs / 1000) % 60;
+        document.getElementById('years').innerText = String(years).padStart(2, '0');
+        document.getElementById('months').innerText = String(months).padStart(2, '0');
+        document.getElementById('days').innerText = String(days).padStart(2, '0');
+        document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+        document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+        document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+      }
+      calc(); counterInterval = setInterval(calc, 1000);
+    }
+
+    function goToFinalFromCounter() {
+      if (counterInterval) clearInterval(counterInterval);
+      showPage('lovePage');
+      runSpaceAnimation(); 
+      
+      setTimeout(() => {
+        const canvas = document.getElementById('spaceCanvas');
+        if (canvas) {
+          document.body.appendChild(canvas); 
+        }
+        
+        showPage('finalPageNew');
+        
+        const finalPage = document.getElementById('finalPageNew');
+        if (finalPage) {
+          finalPage.style.background = 'transparent'; 
+          finalPage.style.opacity = '0';
+          
+          finalPage.offsetHeight; 
+          finalPage.style.transition = 'opacity 2.5s ease';
+          finalPage.style.opacity = '1';
+        }
+        
+        setupVideoAutoplay();
+      }, 4200); 
+    }
+
+    // ===== أنيميشن الفضاء الحركي =====
+    function runSpaceAnimation() {
+      const canvas = document.getElementById('spaceCanvas'); if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+      
+      const offCanvas = document.createElement('canvas');
+      const offCtx = offCanvas.getContext('2d');
+      offCanvas.width = canvas.width; offCanvas.height = canvas.height;
+      
+      const fSize = Math.min(canvas.width * 0.14, 85);
+      offCtx.fillStyle = '#fff';
+      offCtx.font = `900 ${fSize}px 'Cairo', Arial, sans-serif`;
+      offCtx.textAlign = 'center';
+      offCtx.textBaseline = 'middle';
+      offCtx.fillText('I LOVE YOU', offCanvas.width / 2, offCanvas.height / 2);
+      
+      const imgData = offCtx.getImageData(0, 0, offCanvas.width, offCanvas.height).data;
+      const points = [];
+      
+      for (let y = 0; y < offCanvas.height; y += 4) {
+        for (let x = 0; x < offCanvas.width; x += 4) {
+          const alpha = imgData[(y * offCanvas.width + x) * 4 + 3];
+          if (alpha > 128) {
+            points.push({ x: x, y: y });
+          }
+        }
+      }
+      
+      let particles = [];
+      const cX = canvas.width / 2; const cY = canvas.height / 2;
+      const totalParticles = Math.min(points.length, 500);
+      points.sort(() => Math.random() - 0.5);
+      
+      for (let i = 0; i < totalParticles; i++) {
+        let angle = Math.random() * Math.PI * 2;
+        let dist = Math.max(canvas.width, canvas.height) * (0.6 + Math.random() * 0.4);
+        particles.push({
+          x: cX + Math.cos(angle) * dist,
+          y: cY + Math.sin(angle) * dist,
+          targetX: points[i].x,
+          targetY: points[i].y,
+          vx: 0, 
+          vy: 0, 
+          speed: 0.025 + Math.random() * 0.03,
+          size: Math.random() * 2.5 + 1.5,
+          color: `hsl(${Math.random() * 20 + 340}, 100%, 75%)`
+        });
+      }
+
+      let startTime = Date.now();
+      let exploded = false;
+
+      function animate() {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.18)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+        let elapsed = Date.now() - startTime;
+        
+        if (elapsed > 3500 && !exploded) {
+          exploded = true;
+          particles.forEach(p => {
+            let angle = Math.atan2(p.y - cY, p.x - cX);
+            if (Math.abs(p.x - cX) < 5 && Math.abs(p.y - cY) < 5) {
+              angle = Math.random() * Math.PI * 2;
+            }
+            let force = 6 + Math.random() * 12;
+            p.vx = Math.cos(angle) * force;
+            p.vy = Math.sin(angle) * force;
+          });
+        }
+
+        particles.forEach(p => {
+          if (!exploded) {
+            p.x += (p.targetX - p.x) * p.speed;
+            p.y += (p.targetY - p.y) * p.speed;
+          } else {
+            p.x += p.vx;
+            p.y += p.vy;
+          }
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fillStyle = p.color; ctx.fill();
+        });
+        requestAnimationFrame(animate);
+      }
+      animate();
+    }
+
+    // ===== نظام التحكم في الفيديو =====
+    function setupVideoAutoplay() {
+      const vContainer = document.getElementById('videoContainer');
+      const vid = document.getElementById('loveVideo');
+      if (!vContainer || !vid) return;
+
+      const observerOptions = { root: null, threshold: [0.0, 0.5, 0.8, 1.0] };
+
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          const ratio = entry.intersectionRatio;
+
+          if (entry.isIntersecting) {
+            if (ratio >= 0.5) {
+              vContainer.classList.add('visible');
+              if (ratio >= 0.8) {
+                if (vid.paused) {
+                  fadeMusic(0, 600, () => audio.pause());
+                  vid.play().catch(() => {});
+                }
+              }
+            }
+            if (ratio < 0.5) {
+              if (!vid.paused) {
+                vid.pause();
+                if (audio.paused) { audio.play().then(() => fadeMusic(1, 600)); }
+              }
+            }
+          } else {
+            if (!vid.paused) {
+              vid.pause();
+              if (audio.paused) { audio.play().then(() => fadeMusic(1, 600)); }
+            }
+          }
+        });
+      }, observerOptions);
+
+      observer.observe(vContainer);
+    }
+
+    function fadeMusic(targetVol, duration, callback) {
+      if (!audio) return;
+      const step = 0.05, intervalTime = duration * step;
+      const timer = setInterval(() => {
+        if (audio.volume < targetVol) {
+          audio.volume = Math.min(targetVol, audio.volume + step);
+        } else {
+          audio.volume = Math.max(targetVol, audio.volume - step);
+        }
+        if (Math.abs(audio.volume - targetVol) < 0.02) {
+          audio.volume = targetVol; clearInterval(timer);
+          if (callback) callback();
+        }
+      }, intervalTime);
+    }
+
+    function spawnParticle(x, y) {
+      const p = document.createElement('div'); p.className = 'scroll-particle';
+      p.innerHTML = ['🌹', '💖', '✨', '🩷', '🌷'][Math.floor(Math.random() * 5)];
+      p.style.left = x + 'px'; p.style.top = y + 'px';
+      document.body.appendChild(p); setTimeout(() => p.remove(), 700);
+    }
+    document.addEventListener('touchmove', e => spawnParticle(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
+    document.addEventListener('mousemove', e => spawnParticle(e.clientX, e.clientY));
+  </script>
+</body>
+</html>
